@@ -1,0 +1,63 @@
+<form method="POST" class="row mb-3 needs-validation main" novalidate>
+    <?= $form->csrfField('noob') ?>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <?= $_meta['subtitle'] ?>
+                <?php if(!$saved): ?>
+                <div class="float-right">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="card-body">
+                <?php if($saved): ?>
+                    <div class="alert alert-success" role="alert">
+                        User address successfully updated.
+                    </div>
+                <?php else: ?>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field('country', $opts['country']) ?>
+                        <?= $form->field('state', $opts['state']) ?>
+                        <?= $form->field('city', $opts['city']) ?>
+                        <?= $form->field('district', $opts['district']) ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field('village', $opts['village']) ?>
+                        <?= $form->field('zipcode', $opts['zipcode']) ?>
+                        <?= $form->field('street') ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    let inputs = {
+        state   : 'country',
+        city    : 'state',
+        district: 'city',
+        village : 'district',
+        zipcode : 'village'
+    };
+    let form = 'admin-user-address-fld-'
+
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        for(let child in inputs){
+            let parent = inputs[child]
+            $('#'+form+parent).change(() => {
+                let el = $('#'+form+child)
+                el.children('option').remove()
+                el.data('selectpicker').refresh()
+                el.change()
+            })
+        }
+
+    }, false);
+
+</script>
